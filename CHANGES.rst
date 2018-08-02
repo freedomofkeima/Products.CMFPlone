@@ -31,6 +31,14 @@ Breaking changes:
 - Some tools from CMFCore are now utilities
   [pbauer]
 
+- *add item here*
+
+New Features:
+
+- New robot tests for querystring in Collection type.
+  Now almost all querystring types are robot tested.
+  [llisa123]
+
 Bug fixes:
 
 - Fix an undefined variable in a test helper function
@@ -41,6 +49,8 @@ Bug fixes:
 
 - Get rid of obsolete ``X-UA-Compatible`` header.
   [hvelarde]
+- Fixed Location query robot tests timing problems.
+  [llisa123]
 
 - Add test for issue #2469.
   [jensens]
