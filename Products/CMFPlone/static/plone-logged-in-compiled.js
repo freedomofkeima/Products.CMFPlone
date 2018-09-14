@@ -27345,7 +27345,7 @@ define('mockup-patterns-tooltip',[
 
   bootstrapTooltip.DEFAULTS = {
     animation: true,
-    placement: 'top',
+    placement: 'auto',
     selector: false,
     template: '<div class="tooltip mockup-tooltip" role="tooltip"><div class="tooltip-arrow"></div><div class="tooltip-inner"></div></div>',
     trigger: 'hover focus',
@@ -70356,7 +70356,7 @@ define('mockup-patterns-structure-url/js/views/tablerow',[
 });
 
 
-define('text!mockup-patterns-structure-url/templates/table.xml',[],function () { return '<div class="alert alert-<%- status.type %> status">\n  <strong><%- status.label %></strong>\n  <span><%- status.text %></span>&nbsp;<% // &nbsp; to get correct height for empty alerts %>\n</div>\n\n<table class="pat-datatables table table-striped table-bordered"\n       data-pat-datatables="<%- datatables_options %>">\n  <thead>\n    <tr class="fc-breadcrumbs-container">\n      <td class="fc-breadcrumbs" colspan="<%- activeColumns.length + 3 %>">\n        <a href="#" data-path="/">\n          <span class="glyphicon glyphicon-home"></span> /\n        </a>\n        <% _.each(pathParts, function(part, idx, list){\n          if(part){\n            if(idx > 0){ %>\n              /\n            <% } %>\n            <a href="#" class="crumb" data-path="<%- part %>"><%- part %></a>\n          <% }\n        }); %>\n      </td>\n    </tr>\n    <tr>\n      <th class="selection"><input type="checkbox" class="select-all" /></th>\n      <th class="title"><%- _t(\'Title\') %></th>\n      <% _.each(activeColumns, function(column){ %>\n        <% if(column !== \'Description\' && _.has(availableColumns, column)) { %>\n          <th><%- availableColumns[column] %></th>\n        <% } %>\n      <% }); %>\n      <th class="actions"><%- _t("Actions") %></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>\n';});
+define('text!mockup-patterns-structure-url/templates/table.xml',[],function () { return '<div class="alert alert-<%- status.type %> status">\n  <strong><%- status.label %></strong>\n  <span><%- status.text %></span>&nbsp;<% // &nbsp; to get correct height for empty alerts %>\n</div>\n\n<div class="fc-breadcrumbs-container">\n  <div class="fc-breadcrumbs" colspan="<%- activeColumns.length + 3 %>">\n    <a href="#" data-path="/">\n      <span class="glyphicon glyphicon-home"></span> /\n    </a>\n    <% _.each(pathParts, function(part, idx, list){\n      if(part){\n        if(idx > 0){ %>\n          /\n        <% } %>\n        <a href="#" class="crumb" data-path="<%- part %>"><%- part %></a>\n      <% }\n    }); %>\n  </div>\n</div>\n\n<table class="pat-datatables table table-striped table-bordered"\n       data-pat-datatables="<%- datatables_options %>">\n  <thead>\n    <tr>\n      <th class="selection"><input type="checkbox" class="select-all" /></th>\n      <th class="title"><%- _t(\'Title\') %></th>\n      <% _.each(activeColumns, function(column){ %>\n        <% if(column !== \'Description\' && _.has(availableColumns, column)) { %>\n          <th><%- availableColumns[column] %></th>\n        <% } %>\n      <% }); %>\n      <th class="actions"><%- _t("Actions") %></th>\n    </tr>\n  </thead>\n  <tbody>\n  </tbody>\n</table>\n';});
 
 /*! DataTables 1.10.16
  * ©2008-2017 SpryMedia Ltd - datatables.net/license
@@ -86880,7 +86880,7 @@ define('mockup-patterns-structure-url/js/views/table',[
       var self = this;
 
       // By default do not start sorted by any column
-      // Ignore first column and the last one (activeColumns.length + 2)
+      // Ignore first column and the last one (activeColumns.length + 1)
       // Do not show paginator, search or information, we only want column sorting
       var datatables_options = {
         "aaSorting": [],
@@ -86956,7 +86956,7 @@ define('mockup-patterns-structure-url/js/views/table',[
                     // Clear the status message
                     self.app.setStatus();
                   });
-        self.app.setStatus(_t('Cannot drag and drop items to reorder while manually sorting a column'), 'warning', btn = btn);
+        self.app.setStatus(_t('Notice: Drag and drop reordering is disabled when viewing the contents sorted by a column.'), 'warning', btn = btn);
         $(".pat-datatables tbody").find('tr').off("drag")
         self.$el.removeClass('order-support');
       } );
@@ -89875,8 +89875,7 @@ define('mockup-patterns-structure',[
       contextInfoUrl: null, // for add new dropdown and other info
       setDefaultPageUrl: null,
       menuOptions: null, // default action menu options per item.
-      // default menu generator
-      menuGenerator: 'mockup-patterns-structure-url/js/actionmenu',
+      menuGenerator: 'mockup-patterns-structure-url/js/actionmenu',  // default menu generator
       backdropSelector: '.plone-modal', // Element upon which to apply backdrops used for popovers
 
       activeColumnsCookie: 'activeColumns',
@@ -89968,29 +89967,37 @@ define('mockup-patterns-structure',[
 
       buttons: null,
       _default_buttons: [{
+        tooltip: 'Cut',
         title: 'Cut',
         url: '/cut'
       },{
+        tooltip: 'Copy',
         title: 'Copy',
         url: '/copy'
       },{
+        tooltip: 'Paste',
         title: 'Paste',
         url: '/paste'
       },{
+        tooltip: 'Delete',
         title: 'Delete',
         url: '/delete',
         context: 'danger',
         icon: 'trash'
       },{
+        tooltip: 'Workflow',
         title: 'Workflow',
         url: '/workflow'
       },{
+        tooltip: 'Tags',
         title: 'Tags',
         url: '/tags'
       },{
+        tooltip: 'Properties',
         title: 'Properties',
         url: '/properties'
       },{
+        tooltip: 'Rename',
         title: 'Rename',
         url: '/rename'
       }],
@@ -94854,5 +94861,5 @@ require([
   'use strict';
 });
 
-define("/media/erral-home/erral/dev/buildout.coredev/buildout.coredev-5.1/src/Products.CMFPlone/Products/CMFPlone/static/plone-logged-in.js", function(){});
+define("/work/playground/plone/plone.coredev-5.1/src/Products.CMFPlone/Products/CMFPlone/static/plone-logged-in.js", function(){});
 
